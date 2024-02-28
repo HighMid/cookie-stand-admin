@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-export default function Main() {
+export default function CreateForm({onCreate}) {
   const [formData, setFormData] = useState({
     location: '',
     minCustomers: '',
     maxCustomers: '',
     avgCookies: '',
+    hourly_sales: new Array(14).fill(0) // assuming 14 time slots
   });
 
   // Handle changes in form inputs
@@ -20,8 +21,19 @@ export default function Main() {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    if (parseInt(formData.avgCookies) < 1 || parseInt(formData.minCustomers) < 1 || parseInt(formData.maxCustomers) < 1) {
+      alert('Cannot be less than 1.');
+      return;
+    }
+    if (parseInt(formData.minCustomers) > parseInt(formData.maxCustomers)) {
+      alert('Minimum customers per hour cannot be greater than maximum customers per hour.');
+      return;
+    }
+    onCreate(formData);
   };
+  
+  
 
   return (
     <main className="my-8 mx-auto max-w-xl">
@@ -94,19 +106,6 @@ export default function Main() {
           </button>
         </div>
       </form>
-      <div className="mt-8">
-        <p className="text-sm font-semibold">Report Table Coming Soon...</p>
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          <p className="font-semibold">State of formData:</p>
-          <ul>
-            {Object.entries(formData).map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong> {value}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </main>
   );
 }
