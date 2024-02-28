@@ -1,7 +1,10 @@
-export default function Footer(){
-    return (
-        <footer className="bg-orange-500">
-          <p className="text-center text-white p-5">©2023</p>
-        </footer>
-    )
+
+export default function Footer({ locationCount }) {
+  return (
+    <footer className="bg-green-500">
+      <p className="text-left text-white p-5">
+        {locationCount} Locations World Wide
+      </p>
+    </footer>
+  );
 }
